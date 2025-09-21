@@ -24,7 +24,7 @@ export default function EditBlogPage() {
     if (image) formData.append("image", image);
 
     await updateBlog(id, formData);
-    router.push("/blogs");
+    router.push("/dashboard/blogs");
   };
 
   return (

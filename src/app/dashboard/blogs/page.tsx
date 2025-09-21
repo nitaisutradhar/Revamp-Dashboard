@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-// import axios from "axios";
 // import { useRouter } from "next/navigation";
 import api from "@/app/lib/api/api";
 import { Blog } from "@/app/types/blog";
@@ -13,7 +12,9 @@ export default function BlogsPage() {
 
   useEffect(() => {
     api.get("/api/v1/blogs")
-      .then(res => setBlogs(res.data.data.blogs))
+      .then(res => {
+        setBlogs(res.data.data.blogs)
+      })
       .catch(err => console.error(err));
   }, []);
 
@@ -54,14 +55,14 @@ export default function BlogsPage() {
             <tr key={blog._id} className="border-t">
               <td className="p-2">{blog.title}</td>
               {/* <td className="p-2">{blog.author?.name || "N/A"}</td> */}
-              <td className="p-2">{blog.isPublished ? "Published" : "Draft"}</td>
-              <td className="p-2 flex gap-2">
+              <td className="p-2 text-center">{blog.isPublished ? "Published" : "Draft"}</td>
+              <td className="p-2 flex gap-2 justify-center">
                 <Link href={`/dashboard/blogs/${blog._id}`}>
                   <button className="bg-green-500 text-white px-3 py-1 rounded">
                     View
                   </button>
                 </Link>
-                <Link href={`/dashboard/blogs/${blog._id}?edit=true`}>
+                <Link href={`/dashboard/blogs/${blog._id}/edit`}>
                   <button className="bg-yellow-500 text-white px-3 py-1 rounded">
                     Edit
                   </button>
