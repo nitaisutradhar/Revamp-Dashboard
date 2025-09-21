@@ -5,18 +5,49 @@ import Link from "next/link";
 // import { useRouter } from "next/navigation";
 import api from "@/app/lib/api/api";
 import { Blog } from "@/app/types/blog";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function BlogsPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
-  // const router = useRouter();
+  const [loading, setLoading] = useState(true);
+   const { user } = useAuth();
+    const role = user?.role;
 
-  useEffect(() => {
-    api.get("/api/v1/blogs")
-      .then(res => {
-        setBlogs(res.data.data.blogs)
-      })
-      .catch(err => console.error(err));
-  }, []);
+  // const router = useRouter();
+    useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        let res;
+        if (role === "admin" || role === "superAdmin") {
+          res = await api.get("/api/v1/blogs/get-blogs");
+        } else {
+          res = await api.get("/api/v1/blogs");
+        }
+        setBlogs(res.data.data.blogs);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (role) {
+      fetchBlogs();
+    }
+  }, [role]);
+
+    const handlePublishToggle = async (id: string, isPublished: boolean) => {
+    try {
+      if (isPublished) {
+        await api.patch(`/api/v1/blogs/${id}/unpublish`);
+      } else {
+        await api.patch(`/api/v1/blogs/${id}/publish`);
+      }
+      setBlogs(prev => prev.map(b => b._id === id ? { ...b, isPublished: !isPublished } : b));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
 
   const handleDelete = async (id: string) => {
@@ -29,6 +60,8 @@ export default function BlogsPage() {
       }
     }
   };
+
+    if (loading) return <p>Loading...</p>;
 
   return (
     <div className="p-6">
@@ -55,7 +88,7 @@ export default function BlogsPage() {
             <tr key={blog._id} className="border-t">
               <td className="p-2">{blog.title}</td>
               {/* <td className="p-2">{blog.author?.name || "N/A"}</td> */}
-              <td className="p-2 text-center">{blog.isPublished ? "Published" : "Draft"}</td>
+              <td className="p-2 text-center">{blog.isPublished ? "Published" : "Unpublished"}</td>
               <td className="p-2 flex gap-2 justify-center">
                 <Link href={`/dashboard/blogs/${blog._id}`}>
                   <button className="bg-green-500 text-white px-3 py-1 rounded">
@@ -73,6 +106,14 @@ export default function BlogsPage() {
                 >
                   Delete
                 </button>
+                {(role === "admin" || role === "superAdmin") ? (
+                  <button
+                    onClick={() => handlePublishToggle(blog._id, blog.isPublished)}
+                    className="bg-blue-500 text-white px-3 py-1 rounded"
+                  >
+                    {blog.isPublished ? "Unpublish" : "Publish"}
+                  </button>
+                  ) : null}
               </td>
             </tr>
           ))}

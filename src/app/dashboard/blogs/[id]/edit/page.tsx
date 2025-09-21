@@ -1,8 +1,11 @@
 "use client";
 
 import {  useState } from "react";
+import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { updateBlog } from "@/app/lib/api/blogService";
+import api from "@/app/lib/api/api";
+import { Blog } from "@/app/types/blog";
 
 export default function EditBlogPage() {
   const { id } = useParams<{ id: string }>();
@@ -12,7 +15,24 @@ export default function EditBlogPage() {
   const [tags, setTags] = useState("");
   const [image, setImage] = useState<File | null>(null);
 
-  // Ideally, load existing blog data with getBlog API (id-based route in backend)
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+   try {
+     const response = await api.get<{ data: { blog: Blog } }>(
+          `/api/v1/blogs/${id}`
+        );
+        const blog = response.data.data.blog;
+      setTitle(blog.title);
+      setContent(blog.content);
+      setTags(blog.tags.join(","));
+    } catch (err) {
+      console.error(err);
+    }
+  }; 
+
+    if (id) fetchBlog();
+  }, [id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
