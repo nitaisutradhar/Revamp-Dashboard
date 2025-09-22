@@ -31,7 +31,7 @@ export default function AddEmployeeModal({ onSuccess }: { onSuccess: (emp: Emplo
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add Employee</Button>
+        <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={() => setOpen(true)}>Add Employee</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

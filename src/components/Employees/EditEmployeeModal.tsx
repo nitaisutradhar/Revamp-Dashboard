@@ -38,7 +38,7 @@ export default function EditEmployeeModal({
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Edit</Button>
+      <Button className="bg-yellow-500 hover:bg-yellow-600 text-white" onClick={() => setOpen(true)}>Edit</Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>

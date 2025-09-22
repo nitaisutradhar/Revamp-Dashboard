@@ -2,15 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-// import axios from "axios";
-// import { useRouter } from "next/navigation";
 import { Job } from "@/app/types/job";
 import api from "@/app/lib/api/api";
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  // const router = useRouter();
 
   // Fetch jobs
     useEffect(() => {
@@ -105,19 +102,19 @@ export default function JobsPage() {
                 <td className="border border-gray-200 px-4 py-2 text-center space-x-2">
                   <Link
                     href={`/dashboard/jobs/${job._id}`}
-                    className="text-blue-600 hover:underline"
+                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
                   >
                     View
                   </Link>
                   <Link
                     href={`/dashboard/jobs/${job._id}/edit`}
-                    className="text-yellow-600 hover:underline"
+                    className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
                   >
                     Edit
                   </Link>
                   <button
                     onClick={() => handleDelete(job._id)}
-                    className="text-red-600 hover:underline"
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                   >
                     Delete
                   </button>

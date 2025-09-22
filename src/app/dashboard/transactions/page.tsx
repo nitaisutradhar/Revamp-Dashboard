@@ -52,7 +52,7 @@ export default function TransactionsPage() {
         <h1 className="text-xl font-bold">Transactions</h1>
         <Link
           href="/dashboard/transactions/new"
-          className="px-3 py-2 bg-green-600 text-white rounded"
+          className="px-3 py-2 bg-blue-600 text-white rounded"
         >
           + New Transaction
         </Link>
@@ -84,7 +84,7 @@ export default function TransactionsPage() {
               <td className="border px-3 py-2 space-x-2">
                 <Link
                   href={`/dashboard/transactions/${tx._id}`}
-                  className="px-2 py-1 bg-blue-500 text-white rounded"
+                  className="px-2 py-1 bg-green-500 text-white rounded"
                 >
                   View
                 </Link>
