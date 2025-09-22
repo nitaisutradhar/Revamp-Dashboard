@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import AddEmployeeModal from "@/components/Employees/AddEmployeeModal";
 import EditEmployeeModal from "@/components/Employees/EditEmployeeModal";
+import Link from "next/link";
 
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -66,6 +67,9 @@ export default function EmployeesPage() {
               <td className="p-2">{emp.team || "-"}</td>
               <td className="p-2">{emp.salary ? `$${emp.salary}` : "-"}</td>
               <td className="p-2 flex gap-2">
+                <Link href={`/dashboard/employees/${emp._id}`}>
+                <Button className="bg-blue-500 hover:bg-blue-600 text-white" >View</Button>
+                </Link>
                 <EditEmployeeModal
                   employee={emp}
                   onSuccess={(updated) =>
