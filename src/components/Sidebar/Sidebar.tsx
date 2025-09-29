@@ -30,6 +30,7 @@ export default function Sidebar() {
       <div className="mb-6 text-xl font-semibold">Dashboard</div>
       <nav className="space-y-1">
         <NavItem href="/dashboard" label="Overview" />
+        <NavItem href="/dashboard/visitors" label="Visitors" />
         {/* Everyone */}
         <NavItem href="/dashboard/blogs" label="Blogs" />
         <NavItem href="/dashboard/jobs" label="Jobs" />
