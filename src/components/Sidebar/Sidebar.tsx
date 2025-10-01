@@ -32,6 +32,7 @@ export default function Sidebar() {
         <NavItem href="/dashboard" label="Overview" />
         <NavItem href="/dashboard/visitors" label="Visitors" />
         {/* Everyone */}
+        <NavItem href="/dashboard/messages" label="Messages" />
         <NavItem href="/dashboard/blogs" label="Blogs" />
         <NavItem href="/dashboard/jobs" label="Jobs" />
         {/* Admin+ */}
